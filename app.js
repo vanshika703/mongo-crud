@@ -12,7 +12,7 @@ app.get('/', (req,res)=>{
     res.render('index')
 })
 
-app.post('/', (req,res)=>{
+app.post('/submit', (req,res)=>{
     MongoClient.connect(url,(err,db)=>{
         if(err) throw err
         let dbo = db.db("forms")
@@ -25,6 +25,7 @@ app.post('/', (req,res)=>{
             console.log("inserted input")
         })
     })
+    res.end()
 })
 
 
