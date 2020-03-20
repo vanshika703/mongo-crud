@@ -3,29 +3,40 @@ const app = express()
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
-app.set("view engine","ejs")
 
 const MongoClient = require('mongodb').MongoClient
 const url = "mongodb+srv://vanshika703:vanshika@cluster0-ndrdb.mongodb.net/test?retryWrites=true&w=majority"
 
 app.get('/', (req,res)=>{
-    res.render('index')
+    res.sendFile(__dirname+ "/index.html")
 })
 
 app.post('/submit', (req,res)=>{
     MongoClient.connect(url,(err,db)=>{
         if(err) throw err
         let dbo = db.db("forms")
-        var input = {
+        let input = {
             name : req.body.name,
             gender : req.body.gender
         }
-        dbo.collection('inputs').insertOne(input, (dbErr,res)=>{
+        dbo.collection('inputs').insertOne(input, (dbErr,result)=>{
             if(dbErr) throw dbErr
-            console.log("inserted input")
+            console.log(result)
         })
     })
-    res.end()
+    res.redirect('/')
+}
+
+app.get('/display', (req,res)=>{
+    MongoClient.connect(url,(err,db)=>{
+        if(err) throw err
+        let dbo = db.db("forms")
+        dbo.collection("inputs").find({}).toArray((dbErr,result)=>{
+            if(dbErr) throw err
+            res.send(result)
+            db.close()
+        })
+    })
 })
 
 
