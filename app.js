@@ -25,7 +25,7 @@ app.post('/submit', (req,res)=>{
         })
     })
     res.redirect('/')
-}
+})
 
 app.get('/display', (req,res)=>{
     MongoClient.connect(url,(err,db)=>{
