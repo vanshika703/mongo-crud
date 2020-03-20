@@ -6,10 +6,16 @@
     <title>Document</title>
 </head>
 <body>
+    <h1>Create</h1>
     <form action="/submit" method="POST">
         <input type="text" placeholder="Name" name="name">
         <input type="radio" placeholder="male" name="gender">Male
         <input type="radio" placeholder="female" name="gender">female
+        <button type="submit">submit</button>
+    </form>
+    <h1>Delete</h1>
+    <form action="/delete" method="DELETE">
+        <input type="text" placeholder="Name" name="name">
         <button type="submit">submit</button>
     </form>
 </body>

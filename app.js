@@ -39,6 +39,22 @@ app.get('/display', (req,res)=>{
     })
 })
 
+app.delete('/delete', (req,res)=>{
+    MongoClient.connect(url,(err,db)=>{
+        if(err) throw err
+        let dbo = db.db("forms")
+        let del = {
+            name : req.body.name
+        }
+        dbo.collection("inputs").deleteOne(del, (dbErr,result)=>{
+            if(dbErr) throw dbErr
+            console.log("deleted")
+            db.close()
+        })
+    })
+    res.redirect('/')
+})
+
 
 app.listen(3000, (err)=>{
     if(err) throw err
