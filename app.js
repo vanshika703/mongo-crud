@@ -39,7 +39,7 @@ app.get('/display', (req,res)=>{
     })
 })
 
-app.delete('/delete', (req,res)=>{
+app.post('/delete', (req,res)=>{
     MongoClient.connect(url,(err,db)=>{
         if(err) throw err
         let dbo = db.db("forms")
@@ -49,6 +49,28 @@ app.delete('/delete', (req,res)=>{
         dbo.collection("inputs").deleteOne(del, (dbErr,result)=>{
             if(dbErr) throw dbErr
             console.log("deleted")
+            db.close()
+        })
+    })
+    res.redirect('/')
+})
+
+app.post('/update',(req,res)=>{
+    MongoClient.connect(url,(err,db)=>{
+        if(err) throw err
+        let dbo = db.db("forms")
+        let old = {
+            name : req.body.old_name
+        }
+        let new_name = { $set:{
+            name : req.body.new_name
+        }
+            
+        }
+
+        dbo.collection("inputs").updateOne(old, new_name,(dbErr,result)=>{
+            if(dbErr) throw dbErr
+            console.log(updated)
             db.close()
         })
     })
